@@ -1,0 +1,171 @@
+﻿<UserControl x:Name="uc" x:Class="AppBox.AppListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AppBox"
+             xmlns:Converter="clr-namespace:AppBox.Ext"       
+             AllowDrop="True"
+             mc:Ignorable="d" 
+             Background="Transparent"
+             d:DesignHeight="450" d:DesignWidth="200">
+    <UserControl.Resources>
+        <Style  TargetType="{x:Type StackPanel}" x:Key="APPStackPanelStyle">
+            <Setter Property="Background"   
+                      Value="#0000" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver"  
+                            Value="True">
+                    <Setter Property="Background"
+                                Value="#33ffcc33" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <CollectionViewSource x:Key="AppListCollectionViewSource" Source="{Binding AppUniqueList}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Category" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+        <Converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+        <Converter:BoolToVisibilityConverter  x:Key="B2Visibility"></Converter:BoolToVisibilityConverter>
+        <Converter:BoolToNotVisibilityConverter  x:Key="B2NVisibility"></Converter:BoolToNotVisibilityConverter>
+        <Converter:BindingProxy x:Key="BindingProxy" Data="{Binding}"></Converter:BindingProxy>
+    </UserControl.Resources>
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl 
+            ItemsSource="{Binding Source={StaticResource AppListCollectionViewSource}}"
+            d:ItemsSource="{d:SampleData ItemCount=5}">
+
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu ItemsSource="{Binding Source={StaticResource BindingProxy}, Path=Data.MenuItemList}" Tag="{Binding}">
+                                    <ContextMenu.ItemContainerStyle>
+                                        <Style TargetType="{x:Type MenuItem}">
+                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
+                                            <Setter Property="Header" Value="{Binding Name}" />
+                                            <Setter Property="Command" Value="{Binding CMD}" />
+                                            <Setter Property="CommandParameter" Value="{Binding Tag, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}" />
+                                        </Style>
+                                    </ContextMenu.ItemContainerStyle>
+                                </ContextMenu>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid  Visibility="{Binding IsKeySelected, Converter={StaticResource B2Visibility}}" Drop="AppItem_Drop">
+                            <StackPanel 
+                        Style="{StaticResource APPStackPanelStyle}"
+                        MinWidth="80"
+                        Orientation="Vertical" HorizontalAlignment="Stretch" ToolTip="{Binding Uri}" Margin="3"
+                            >
+                                <StackPanel.InputBindings>
+                                    <MouseBinding 
+                                Command="{Binding DataContext.DoubleClick , RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" MouseAction="LeftDoubleClick" 
+                                CommandParameter ="{Binding}"/>
+                                    <MouseBinding 
+                                Command="{Binding DataContext.SignalClick , RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" MouseAction="LeftClick" 
+                                CommandParameter ="{Binding}"/>
+                                </StackPanel.InputBindings>
+                                <Image 
+                                Source="{Binding Icon}" 
+                                Width="48" Height="48"  Stretch="Fill" Margin="3">
+                                </Image>
+                                <Label 
+                                Width="60" Height="48"
+                                Margin="0,-54,0,0"
+                                Content="{Binding Status}"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                Background="#5000"
+                                    Foreground="White"
+                                BorderBrush="{x:Null}"
+                                Visibility="{Binding Status, Converter={StaticResource StringToVisibilityConverter}}"
+                                ></Label>
+                                <Grid  Margin="3" HorizontalAlignment="Left" 
+                                   Visibility="{Binding DataContext.IsRemote , RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={StaticResource B2Visibility}}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                                        <ColumnDefinition  Width="auto"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0"  CornerRadius="5,0,0,5" Background="#8555" HorizontalAlignment="Center" Margin="0" Padding="2,0,2,0">
+                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding AppItemType}"/>
+                                    </Border>
+                                    <Border  Grid.Column="1" CornerRadius="0,5,5,0" Background="#5ccc" HorizontalAlignment="Center" Margin="0" Padding="2,0,2,0" Visibility="{Binding Version, Converter={StaticResource StringToVisibilityConverter}}">
+                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding Version}" />
+                                    </Border>
+                                </Grid>
+                                <Grid
+                                Visibility="{Binding DataContext.IsRemote , RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={StaticResource B2NVisibility}}">
+                                    <Border
+                                Grid.Column="1" CornerRadius="5" Background="#5ccc" HorizontalAlignment="Center" Margin="0" Padding="2,0,2,0" Visibility="{Binding Version, Converter={StaticResource StringToVisibilityConverter}}">
+                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding Version}" />
+                                    </Border>
+                                </Grid>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" MaxWidth="100"
+                                   HorizontalAlignment="Center"
+                                   TextWrapping="Wrap"></TextBlock>
+
+                                <!--<Label VerticalAlignment="Center"       HorizontalAlignment="Center"
+                               MaxHeight="16"
+                               Padding="2"
+                                                        Content="{Binding Version}"
+                                               Foreground="White"
+                                                        >
+                            <Label.Template>
+                                <ControlTemplate TargetType="{x:Type Label}">
+                                </ControlTemplate>
+                            </Label.Template>
+                        </Label>-->
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <!--<ItemsControl.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.Panel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="1"/>
+                        </ItemsPanelTemplate>
+                    </GroupStyle.Panel>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <Expander Header="{Binding Name}"/>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ItemsControl.GroupStyle>-->
+                <ItemsControl.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <Expander IsExpanded="True">
+                                                <Expander.Header>
+                                                    <TextBlock Text="{Binding Name}" />
+                                                </Expander.Header>
+                                                <ItemsPresenter />
+                                            </Expander>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+                </ItemsControl.GroupStyle>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

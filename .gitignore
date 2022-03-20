@@ -1,0 +1,67 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+bin
+Bin
+obj
+drops
+*.VisualState.xml
+*.LDF
+*~
+PrecompiledWeb
+*.suo
+*.log
+*.cache
+*.user
+*.tmp
+*.ldf
+*.mdf
+*.swx
+.dotest
+*.Publish.xml
+*.dbproj.schemaview
+*.docstates
+/src/packages
+.vs
+/packages
+*.pdb
+Debug/
+Release/
+obj/
+packages/
+*.sdf
+packOut/
+ipch/
+*.ipch
+*.zip
+*.rar

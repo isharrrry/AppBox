@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AppBox": {
+      "commandName": "Project",
+      "commandLineArgs": ""
+    }
+  }
+}

@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppBox", "AppBox\AppBox.csproj", "{61762919-9787-4A82-AB76-409539ADE24A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppBoxCore", "AppBoxCore\AppBoxCore.csproj", "{1D43FF99-2B64-434D-AD3C-15DB0D703942}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppBoxInit", "AppBoxInit\AppBoxInit.csproj", "{F8F558C1-A5CE-4269-96BA-1A89D7B72F3B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{61762919-9787-4A82-AB76-409539ADE24A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61762919-9787-4A82-AB76-409539ADE24A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61762919-9787-4A82-AB76-409539ADE24A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61762919-9787-4A82-AB76-409539ADE24A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D43FF99-2B64-434D-AD3C-15DB0D703942}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D43FF99-2B64-434D-AD3C-15DB0D703942}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D43FF99-2B64-434D-AD3C-15DB0D703942}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D43FF99-2B64-434D-AD3C-15DB0D703942}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8F558C1-A5CE-4269-96BA-1A89D7B72F3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8F558C1-A5CE-4269-96BA-1A89D7B72F3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8F558C1-A5CE-4269-96BA-1A89D7B72F3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8F558C1-A5CE-4269-96BA-1A89D7B72F3B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57969446-CF06-453A-8E3D-A19E562B8A76}
+	EndGlobalSection
+EndGlobal

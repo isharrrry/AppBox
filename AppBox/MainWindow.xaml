@@ -1,0 +1,100 @@
+﻿<hc:Window x:Class="AppBox.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AppBox"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        ShowTitle="True"
+        ShowInTaskbar="True"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="APP Box" Height="800" Width="1000">
+    <hc:Window.Resources>
+    </hc:Window.Resources>
+    <Grid x:Name="gdMain">
+        <TabControl x:Name="tabMain">
+            <TabItem Header="本地">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal"  >
+                        <ContentPresenter Content="工作空间" VerticalAlignment="Center"></ContentPresenter>
+                        <ComboBox Width="200"  ItemsSource="{Binding ConfigAppBox.ConfigWorkSpaceDir.LocalURIs}" SelectedItem="{Binding LocalURI}"></ComboBox>
+                        <Button Command="{Binding LocalPull}" Width="50">刷新</Button>
+                        <Label></Label>
+                        <TextBox hc:InfoElement.TitlePlacement="Left" hc:InfoElement.Title="搜索关键字" Width="200" HorizontalAlignment="Left" Text="{Binding KeyLocal,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    </StackPanel>
+                    <local:AppListView x:Name="coLocal" DataContext="{Binding LocalObject}" Grid.Row="1"></local:AppListView>
+                    <GroupBox Header="应用详情" Grid.Column="1" Grid.Row="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBox IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True"  VerticalScrollBarVisibility="Visible" VerticalContentAlignment="Top"
+                             DataContext="{Binding LocalObject}"
+                             Text="{Binding SelectedApp.InfoWithDescription, Mode=OneWay}"
+                                 Style="{DynamicResource TextBoxExtend}"></TextBox>
+                            <local:AppVersionListView Grid.Row="1" DataContext="{Binding LocalObject}"></local:AppVersionListView>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tabRemote" Header="仓库" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <!--定义Grid的行-->
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal"  >
+                        <ContentPresenter Content="工作空间" VerticalAlignment="Center"></ContentPresenter>
+                        <ComboBox Width="200"  ItemsSource="{Binding ConfigAppBox.ConfigWorkSpaceDir.RemoteURIs}" x:Name="cbRemote" ></ComboBox>
+                        <Button Command="{Binding RemotePull}" Width="50">刷新</Button>
+                        <Label></Label>
+                        <TextBox hc:InfoElement.TitlePlacement="Left" hc:InfoElement.Title="搜索关键字" Width="200" HorizontalAlignment="Left" Text="{Binding KeyRemote,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    </StackPanel>
+                    <local:AppUniqueListView x:Name="coRemote" Grid.Row="1" DataContext="{Binding RemoteObject}"></local:AppUniqueListView>
+                    <GroupBox Header="应用详情" Grid.Column="1" Grid.Row="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBox IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True"  VerticalScrollBarVisibility="Visible" VerticalContentAlignment="Top"
+                             DataContext="{Binding RemoteObject}"
+                             Text="{Binding SelectedApp.InfoWithDescription, Mode=OneWay}"
+                                 Style="{DynamicResource TextBoxExtend}"></TextBox>
+                            <local:AppVersionListView Grid.Row="1" DataContext="{Binding RemoteObject}"></local:AppVersionListView>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <!--<TabItem Header="传输" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <local:AppTransView Grid.Row="1"></local:AppTransView>
+                </Grid>
+            </TabItem>-->
+        </TabControl>
+        <Button Margin="0,2,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="更多">...</Button>
+    </Grid>
+</hc:Window>

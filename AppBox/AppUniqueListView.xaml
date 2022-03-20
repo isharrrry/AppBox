@@ -1,0 +1,207 @@
+﻿<UserControl x:Name="uc" x:Class="AppBox.AppUniqueListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AppBox"
+             xmlns:Converter="clr-namespace:AppBox.Ext"          
+             AllowDrop="True"
+             mc:Ignorable="d" 
+             Background="Transparent"
+             d:DesignHeight="450" d:DesignWidth="200">
+    <UserControl.Resources>
+        <Style  TargetType="{x:Type Grid}" x:Key="APPStackPanelStyle">
+            <Setter Property="Background"   
+                      Value="#0000" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver"  
+                            Value="True">
+                    <Setter Property="Background"
+                                Value="#33ffcc33" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <CollectionViewSource x:Key="AppListCollectionViewSource" Source="{Binding AppUniqueList}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Category" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+        <Converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+        <Converter:BoolToVisibilityConverter  x:Key="B2Visibility"></Converter:BoolToVisibilityConverter>
+        <Converter:BindingProxy x:Key="BindingProxy" Data="{Binding}"></Converter:BindingProxy>
+    </UserControl.Resources>
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl 
+            ItemsSource="{Binding Source={StaticResource AppListCollectionViewSource}}"
+            d:ItemsSource="{d:SampleData ItemCount=5}">
+
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu ItemsSource="{Binding Source={StaticResource BindingProxy}, Path=Data.MenuItemList}" Tag="{Binding}">
+                                    <ContextMenu.ItemContainerStyle>
+                                        <Style TargetType="{x:Type MenuItem}">
+                                            <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
+                                            <Setter Property="Header" Value="{Binding Name}" />
+                                            <Setter Property="Command" Value="{Binding CMD}" />
+                                            <Setter Property="CommandParameter" Value="{Binding Tag, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}" />
+                                        </Style>
+                                    </ContextMenu.ItemContainerStyle>
+                                </ContextMenu>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid  Visibility="{Binding IsKeySelected, Converter={StaticResource B2Visibility}}"
+                               Style="{StaticResource APPStackPanelStyle}"
+                               >
+                            <Grid.InputBindings>
+                                <MouseBinding 
+                                Command="{Binding DataContext.DoubleClick , RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" MouseAction="LeftDoubleClick" 
+                                CommandParameter ="{Binding}"/>
+                                <MouseBinding 
+                                Command="{Binding DataContext.SignalClick , RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" MouseAction="LeftClick" 
+                                CommandParameter ="{Binding}"/>
+                            </Grid.InputBindings>
+                            <Grid ToolTip="{Binding Uri}" Margin="3" >
+                                <Grid.RowDefinitions>
+                                    <!--定义Grid的行-->
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="auto" MinWidth="200"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+                                <!--<TextBlock
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Text="XXX" 
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap"
+                                Margin="3"></TextBlock>-->
+                                <!--<TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Text="名称" 
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap"
+                                Margin="3"></TextBlock>-->
+                                <Image 
+                                    Grid.Row="0"
+                                    Grid.RowSpan="3"
+                                    Grid.Column="0"
+                                    Source="{Binding Icon}" 
+                                    Width="48" Height="48"  Stretch="Fill" Margin="3">
+                                </Image>
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Grid.ColumnSpan="2"
+                                    Text="{Binding Name}" 
+                                    VerticalAlignment="Center" 
+                                    HorizontalAlignment="Left"
+                                    Margin="3"
+                                    FontSize="14"></TextBlock>
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Content="类型" 
+                                    VerticalAlignment="Center" 
+                                    HorizontalAlignment="Left"
+                                    Margin="3"
+                                    Foreground="Gray"></Label>
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    Content="{Binding AppItemType}" 
+                                    VerticalAlignment="Center" 
+                                    HorizontalAlignment="Left"
+                                    HorizontalContentAlignment="Left"
+                                    Margin="3"></Label>
+                                <Label
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Content="版本" 
+                                    VerticalAlignment="Center" 
+                                    HorizontalAlignment="Left"
+                                    Margin="3"
+                                    Foreground="Gray"></Label>
+                                <Label
+                                    Grid.Row="2"
+                                    Grid.Column="2"
+                                    Content="{Binding Version}" 
+                                    VerticalAlignment="Center" 
+                                    HorizontalAlignment="Left"
+                                    HorizontalContentAlignment="Left"
+                                    Margin="3"></Label>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="3"
+                                    Text="{Binding Description}" 
+                                    VerticalAlignment="Top" 
+                                    HorizontalAlignment="Left"
+                                    TextWrapping="Wrap"
+                                    TextTrimming="CharacterEllipsis"
+                                    Margin="10"
+                                    Foreground="Gray"></TextBlock>
+                                <Label
+                                    Grid.ColumnSpan="2"
+                                    Grid.RowSpan="3"
+                                    Margin="0,0,0,0"
+                                    MinHeight="98"
+                                    Content="{Binding Status}"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Background="#5000"
+                                        Foreground="White"
+                                    BorderBrush="{x:Null}"
+                                    Visibility="{Binding Status, Converter={StaticResource StringToVisibilityConverter}}"
+                                    ></Label>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <Expander IsExpanded="True">
+                                                <Expander.Header>
+                                                    <TextBlock Text="{Binding Name}" />
+                                                </Expander.Header>
+                                                <ItemsPresenter />
+                                            </Expander>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+                </ItemsControl.GroupStyle>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
