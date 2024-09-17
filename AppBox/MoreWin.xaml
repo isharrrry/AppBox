@@ -74,9 +74,9 @@
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="Wrap">
                         <Hyperlink
-                            NavigateUri="https://gitee.com/the50w/MaxCodeGen"
+                            NavigateUri="https://gitee.com/the50w/appbox"
                             Click="ng"
-                            >https://gitee.com/the50w/MaxCodeGen
+                            >https://gitee.com/the50w/appbox
                         </Hyperlink>
                     </TextBlock>
                     <TextBlock
