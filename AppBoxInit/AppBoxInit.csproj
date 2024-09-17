@@ -9,6 +9,13 @@
     <ApplicationIcon>logo.ico</ApplicationIcon>
     <PackageIcon>logo.png</PackageIcon>
     
+    <Build_Version>1.2024.0917.0</Build_Version>
+    <VersionPrefix>$(Build_Version)</VersionPrefix>
+    <Version>$(VersionPrefix)</Version>
+    <FileVersion>$(VersionPrefix)</FileVersion>
+    <AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
+    <PackageVersion>$(VersionPrefix)</PackageVersion>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
 
   <ItemGroup>
