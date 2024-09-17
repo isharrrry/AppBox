@@ -124,6 +124,7 @@ namespace AppBox
                     app.Name = app.Uri;
                 else
                     app.Name = app.InitFile;
+                MainVM.Instance.GetLocalURIAppList(WsDir, false);
                 if (LocalVM.LocalObjects.ContainsKey(WsDir))
                 {
                     UIInvokeHelper.Invoke(() =>
@@ -165,15 +166,19 @@ namespace AppBox
                     app.AppItemType = type;
                 if (类型 == "APPPack")
                     app.AppItemType = AppItemType.应用包;
+                MainVM.Instance.GetLocalURIAppList(WsDir, false);
                 if (LocalVM.LocalObjects.ContainsKey(WsDir))
                 {
                     UIInvokeHelper.Invoke(() =>
                     {
+                        app.删除文件(WsDir);
                         count = LocalVM.LocalObjects[WsDir].WSRemoveApp(app, true, true);
                         LocalVM.LocalObjects[WsDir].SaveWS();
                     });
+                    WsDir.Log($"Delete {app.Uri} {app.Version} 共{count}条");
                 }
-                WsDir.Log($"Delete完成 {app.Uri} {app.Version}");
+                else
+                    WsDir.Log($"找不到 {WsDir}");
             }
             else
             {
@@ -213,6 +218,7 @@ namespace AppBox
                 if (app.AppItemType != AppItemType.应用 && File.Exists(path))
                     app.Size = FileHelper.GetFileSizeInfo(path);
                 app.Description = Description;
+                MainVM.Instance.GetLocalURIAppList(WsDir, false);
                 if (LocalVM.LocalObjects.ContainsKey(WsDir))
                 {
                     UIInvokeHelper.Invoke(() =>
@@ -222,6 +228,7 @@ namespace AppBox
                 }
                 else
                 {
+                    //写入默认空间
                     LocalVM.LocalURI = WsDir;
                     LocalVM.LocalObjects[WsDir] = LocalVM.LocalObject;
                     UIInvokeHelper.Invoke(() =>

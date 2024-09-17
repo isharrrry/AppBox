@@ -272,23 +272,30 @@ namespace AppBox
             return "";
         }
 
-        public ConfigAppList GetLocalURIAppList(string localURI)
+        public ConfigAppList GetLocalURIAppList(string localURI, bool canCreate = true)
         {
-            InitWS(localURI);
+            if (!InitWS(localURI, canCreate))
+                return null;
             var LocalObject = LoadConfigAppList(localURI);
             LocalObjects[localURI] = LocalObject;
             return LocalObjects[localURI];
         }
 
-        public static void InitWS(string WorkSpaceDir)
+        public static bool InitWS(string WorkSpaceDir, bool canCreate = false)
         {
             var file = Path.Combine(WorkSpaceDir, ConfigAppList.ConfigPath);
             if (!File.Exists(file))
             {
-                if (!Directory.Exists(WorkSpaceDir))
-                    Directory.CreateDirectory(WorkSpaceDir);
-                YmlHelper.Save(Path.Combine(WorkSpaceDir, ConfigAppList.ConfigPath), new ConfigAppList());
+                if (canCreate)
+                {
+                    if (!Directory.Exists(WorkSpaceDir))
+                        Directory.CreateDirectory(WorkSpaceDir);
+                    YmlHelper.Save(Path.Combine(WorkSpaceDir, ConfigAppList.ConfigPath), new ConfigAppList());
+                }
+                else
+                    return false;
             }
+            return true;
         }
 
 

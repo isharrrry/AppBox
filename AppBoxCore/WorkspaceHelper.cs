@@ -111,7 +111,7 @@ namespace AppBox
                 that.AppList.Remove(app);
                 count++;
             }
-            count += that.AppList.ListRemoveByApp(app);
+            count += that.AppList.ListRemoveByApp(app, AllUriNull, AllVersionNull);
             //that.AppUniqueList.ListRemoveByApp(app);
             //that.AppVersionList.ListRemoveByApp(app);
             if(isReplace)
@@ -127,8 +127,8 @@ namespace AppBox
             return ListRemoveWhen(AppList, x =>
             (AllUriNull || !string.IsNullOrWhiteSpace(x.Uri))
             && (AllVersionNull || !string.IsNullOrWhiteSpace(x.Version))
-            && x.Uri == app.Uri
-            && app.Version == x.Version
+            && (x.Uri ?? "") == (app.Uri ?? "")
+            && (app.Version ?? "") == (x.Version ?? "")
             && app.AppItemType == x.AppItemType
             && (app.AppItemType == AppItemType.应用 || app.AppItemType == AppItemType.应用包 || app.InitFile == x.InitFile));//app文件夹唯一为准，其他通过启动文件、版本为准
         }
@@ -138,8 +138,8 @@ namespace AppBox
             var ls = (that.AppList).Where(x =>
             (AllUriNull || !string.IsNullOrWhiteSpace(x.Uri))
             && (AllVersionNull || !string.IsNullOrWhiteSpace(x.Version))
-            && x.Uri == app.Uri
-            && app.Version == x.Version
+            && (x.Uri ?? "") == (app.Uri ?? "")
+            && (app.Version ?? "") == (x.Version ?? "")
             && app.AppItemType == x.AppItemType
             && (app.AppItemType == AppItemType.应用 || app.InitFile == x.InitFile));//app文件夹唯一为准，其他通过启动文件、版本为准
             foreach (var item in ls)

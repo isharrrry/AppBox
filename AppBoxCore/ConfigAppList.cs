@@ -321,8 +321,18 @@ namespace AppBox
                                 else if (res.StatusCode == 404)
                                     rapp.MessageBoxShow("失败，请确认目标服务器允许删除应用!", $"结果代码：{res.StatusCode}");
                                 else
+                                {
+                                    if (res.StatusCode == 200)
+                                    {
+                                        UIInvokeHelper.Invoke(() =>
+                                        {
+                                            this.AppListRemove(rapp, false);
+                                            this.LoadAppList();
+                                        });
+                                    }
                                     rapp.MessageBoxShow($"{res.StatusMessage}\n{res.GetBody()}", $"结果代码：{res.StatusCode}");
-                            });
+                                }
+                            }, null, true);
                     });
                 }
                 else
